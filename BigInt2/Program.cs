@@ -6,8 +6,6 @@ namespace BigInt2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("BIG-INT");
-            Console.WriteLine("=======");
             string number1, number2, result;
             number1 = ReadBigNumber(1);
             number2 = ReadBigNumber(2);
@@ -22,10 +20,10 @@ namespace BigInt2
         }
 
         /// <summary>
-        /// Prueft ob ein eingelesener String eine Zahl ist. Nimmt einen Integer als Parameter entgegen um zu sagen die wievielte Zahl eingelesen worden ist.
+        /// Asks for an Input-String and checks if it is a number or not, when not a new number is prompted
         /// </summary>
-        /// <param name="counter"></param>
-        /// <returns>Gibt die eingegebene Zahl als String zurueck</returns>
+        /// <param name="counter">Number of input</param>
+        /// <returns>The Input-String</returns>
         public static string ReadBigNumber(int counter)
         {
             string inputNumber;
@@ -73,17 +71,17 @@ namespace BigInt2
         }
 
         /// <summary>
-        /// 
+        /// Takes two integer numbers as strings and makes an addition with them.
         /// </summary>
         /// <param name="number1"></param>
         /// <param name="number2"></param>
-        /// <returns></returns>
+        /// <returns>A string with the result of the integer addition</returns>
         public static string AddBigInts(string number1, string number2)
         {
             string result = "";
             int digit1, digit2, nextDigit=0, tempResult;
 
-            //Falls Number1 und Number2 unterschiedlich lang sind
+            //Adds leading zeros if needed
             if(number1.Length != number2.Length)
             {
                 int timesToAddZero = number1.Length - number2.Length;
@@ -127,11 +125,11 @@ namespace BigInt2
         }
 
         /// <summary>
-        /// 
+        /// Adds an integer as string a called number of times to itself in an integer addition.
         /// </summary>
         /// <param name="inputNumber"></param>
         /// <param name="numberOfTimes"></param>
-        /// <returns></returns>
+        /// <returns>The multiplied integer number as string</returns>
         public static string MultBigIntWithDigit(string inputNumber, int numberOfTimes)
         {
             string outputNumber = "0";
@@ -145,15 +143,25 @@ namespace BigInt2
         }
 
         /// <summary>
-        /// 
+        /// Takes two numbers as string and makes a integer multiplication
         /// </summary>
         /// <param name="number1"></param>
         /// <param name="number2"></param>
-        /// <returns></returns>
+        /// <returns>The result of the integer multiplication as string</returns>
         public static string MultBigInts(string number1, string number2)
         {
-            string outputString;
+            string outputString = "0";
             string[] additionCandidates = new string[number2.Length];
+
+            for (int i = number2.Length-1; i >= 0; i--)
+            {
+                additionCandidates[i] = MultBigIntWithDigit(number1,Convert.ToInt32(number2[i].ToString()));
+            }
+
+            for (int j = 0; j < additionCandidates.Length; j++)
+            {
+                outputString = AddBigInts(outputString+"0", additionCandidates[j]);
+            }
 
             return outputString;
         }
