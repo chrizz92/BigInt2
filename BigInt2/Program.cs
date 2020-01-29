@@ -4,20 +4,38 @@ namespace BigInt2
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("BIG-INT");
+            Console.WriteLine("=======");
+            string number1, number2, result;
+            number1 = ReadBigNumber(1);
+            number2 = ReadBigNumber(2);
+            result = AddBigInts(number1, number2);
+            Console.WriteLine();
+            Console.WriteLine("Summe der Zahlen:");
+            Console.WriteLine(result);
+            result = MultBigInts(number1, number2);
+            Console.WriteLine();
+            Console.WriteLine("Produkt der Zahlen:");
+            Console.WriteLine(result);
+        }
+
         /// <summary>
         /// Prueft ob ein eingelesener String eine Zahl ist. Nimmt einen Integer als Parameter entgegen um zu sagen die wievielte Zahl eingelesen worden ist.
         /// </summary>
         /// <param name="counter"></param>
         /// <returns>Gibt die eingegebene Zahl als String zurueck</returns>
-        static string ReadBigNumber(int counter)
+        public static string ReadBigNumber(int counter)
         {
             string inputNumber;
-            bool isNumber = true;
+            bool isNumber;
 
             do
             {
                 Console.Write("Geben Sie die {0}. Zahl ein: ",counter);
                 inputNumber = Console.ReadLine();
+                isNumber = true;
 
                 for (int i = 0; i < inputNumber.Length; i++)
                 {
@@ -40,7 +58,7 @@ namespace BigInt2
         /// <param name="character"></param>
         /// <param name="numberOfTimes"></param>
         /// <returns>The new string with the leading characters</returns>
-        static string AddLeadingChars(string inputString, string character, int numberOfTimes)
+        public static string AddLeadingChars(string inputString, string character, int numberOfTimes)
         {
             string outputString = "";
 
@@ -54,12 +72,16 @@ namespace BigInt2
             return outputString;
         }
 
-
-        static string AddBigInts(string number1, string number2)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="number1"></param>
+        /// <param name="number2"></param>
+        /// <returns></returns>
+        public static string AddBigInts(string number1, string number2)
         {
             string result = "";
-            string temp = "";
-            int digit1, digit2, nextDigit = 0;
+            int digit1, digit2, nextDigit=0, tempResult;
 
             //Falls Number1 und Number2 unterschiedlich lang sind
             if(number1.Length != number2.Length)
@@ -76,44 +98,64 @@ namespace BigInt2
                 }
             }
 
-            for (int i = number2.Length; i >= 0; i--)
+            for (int i = number2.Length-1; i >= 0; i--)
             {
-                digit1 = Convert.ToInt32(number1[i]);
-                digit2 = Convert.ToInt32(number2[i]);
-                digit1 += digit2;
+                digit1 = Convert.ToInt32(number1[i].ToString());
+                digit2 = Convert.ToInt32(number2[i].ToString());
+                tempResult = digit1 + digit2 + nextDigit;
 
-                if (digit1 > 9)
+                if (tempResult > 9)
                 {
                     nextDigit = 1;
                 }
                 else
                 {
-                    digit1 += nextDigit;
                     nextDigit = 0;
                 }
 
-                digit1 %= 10;
+                tempResult %= 10;
 
-                result = digit1.ToString() + result;
+                result = tempResult.ToString() + result;
+            }
+
+            if (nextDigit == 1)
+            {
+                result = "1" + result;
             }
 
             return result;
         }
 
-
-
-        static void Main(string[] args)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputNumber"></param>
+        /// <param name="numberOfTimes"></param>
+        /// <returns></returns>
+        public static string MultBigIntWithDigit(string inputNumber, int numberOfTimes)
         {
-            string number1, number2, result;
+            string outputNumber = "0";
 
-            Console.WriteLine("BIG-INT");
-            Console.WriteLine("=======");
+            for (int i = 0; i < numberOfTimes; i++)
+            {
+                outputNumber = AddBigInts(outputNumber, inputNumber);
+            }
 
-            number1 = ReadBigNumber(1);
-            number2 = ReadBigNumber(2);
-            result = AddBigInts(number1, number2);
-            Console.WriteLine("Summe der Zahlen:");
-            Console.WriteLine(result);
+            return outputNumber;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="number1"></param>
+        /// <param name="number2"></param>
+        /// <returns></returns>
+        public static string MultBigInts(string number1, string number2)
+        {
+            string outputString;
+            string[] additionCandidates = new string[number2.Length];
+
+            return outputString;
         }
     }
 }
